@@ -27,7 +27,7 @@ void wake_one(std::atomic_uint32_t &flag, uint32_t desired){
 }
 void wake_all(std::atomic_uint32_t &flag, uint32_t desired){
     flag.store(desired);
-    syscall(SYS_futex, &flag, FUTEX_WAKE_PRIVATE, INT32_MAX, NULL, NULL, NULL);
+    syscall(SYS_futex, &flag, FUTEX_WAKE_PRIVATE, UINT32_MAX, NULL, NULL, NULL);
 }
 
 #elif defined(_WIN32)
