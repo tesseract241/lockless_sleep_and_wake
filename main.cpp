@@ -35,7 +35,7 @@ void wake_all(std::atomic_int32_t &flag, int32_t desired){
 #include <Windows.h>
 #pragma comment(lib, "Synchronization.lib")
 
-void sleep(std::atomic_int32_t &flag, int32_t expected, int32_t timeout_milliseconds){
+void sleep(std::atomic_int32_t &flag, int32_t expected, int32_t timeout_milliseconds=0){
     int32_t timeout = timeout_milliseconds ? timeout_milliseconds : INFINITE;
     while(expected==flag.load()){
         WaitOnAddress(&flag, &expected, 4, timeout);
@@ -75,7 +75,7 @@ int main(){
     }
     int32_t terminal;
     std::cin>>terminal;
-    flag.store(terminal);
+    wake_all(flag, terminal);
     for(int i=0;i<threadNumber;++i){
         threads[i].join();
     }
