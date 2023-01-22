@@ -53,7 +53,7 @@ void wake_one(std::atomic_uint32_t &flag, uint32_t desired){
 }
 void wake_all(std::atomic_uint32_t &flag, uint32_t desired){
     flag.store(desired);
-    futex((volatile uint32_t*) &flag, FUTEX_WAKE, , NULL, NULL);
+    futex((volatile uint32_t*) &flag, FUTEX_WAKE, UINT32_MAX, NULL, NULL);
 }
 
 #elif defined(_WIN32)
