@@ -1,7 +1,5 @@
 #include <atomic>
-void sleep(std::atomic_uint32_t &flag, uint32_t expected, uint32_t timeout_milliseconds);
-void wake_one(std::atomic_uint32_t &flag);
-void wake_all(std::atomic_uint32_t &flag);
+#include <lockless_wait_and_wake.hpp>
 #if defined(__linux__)
 
 #include <linux/futex.h>
@@ -9,7 +7,7 @@ void wake_all(std::atomic_uint32_t &flag);
 #include <sys/time.h>
 #include <unistd.h>
 
-void sleep(std::atomic_uint32_t &flag, uint32_t expected, uint32_t timeout_milliseconds=0){
+void sleep(std::atomic_uint32_t &flag, uint32_t expected, uint32_t timeout_milliseconds){
     timespec timeout;
     timespec *timeout_p;
     if(timeout_milliseconds){
@@ -35,7 +33,7 @@ void wake_all(std::atomic_uint32_t &flag, uint32_t desired){
 #include <sys/time.h>
 #include <sys/futex.h>
 
-void sleep(std::atomic_uint32_t &flag, uint32_t expected, uint32_t timeout_milliseconds=0){
+void sleep(std::atomic_uint32_t &flag, uint32_t expected, uint32_t timeout_milliseconds){
     timespec timeout;
     timespec *timeout_p;
     if(timeout_milliseconds){
@@ -61,7 +59,7 @@ void wake_all(std::atomic_uint32_t &flag, uint32_t desired){
 #include <Windows.h>
 #pragma comment(lib, "Synchronization.lib")
 
-void sleep(std::atomic_uint32_t &flag, uint32_t expected, uint32_t timeout_milliseconds=0){
+void sleep(std::atomic_uint32_t &flag, uint32_t expected, uint32_t timeout_milliseconds){
     uint32_t timeout = timeout_milliseconds ? timeout_milliseconds : INFINITE;
     while(expected==flag.load()){
         WaitOnAddress(&flag, &expected, 4, timeout);
@@ -77,32 +75,3 @@ void wake_all(std::atomic_uint32_t &flag, uint32_t desired){
 }
 
 #endif
-
-#include <thread>
-#include <chrono>
-#include <random>
-#include <iostream>
-
-void worker(std::atomic_uint32_t &flag){
-    sleep(flag, false);
-    std::random_device rd;  
-    std::mt19937 gen(rd()); 
-    std::uniform_int_distribution<> dis(100, 350);
-    std::this_thread::sleep_for(std::chrono::milliseconds(dis(gen)));
-}
-
-int main(){
-    int threadNumber = std::thread::hardware_concurrency();
-    std::atomic_uint32_t flag;
-    flag.store(false);
-    std::thread *threads = new std::thread[threadNumber];
-    for(int i=0;i<threadNumber;++i){
-        threads[i] = std::thread(worker, std::ref(flag));
-    }
-    uint32_t terminal;
-    std::cin>>terminal;
-    wake_all(flag, terminal);
-    for(int i=0;i<threadNumber;++i){
-        threads[i].join();
-    }
-}

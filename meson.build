@@ -1,0 +1,5 @@
+project('lockless_wait_and_wake', 'c', 'cpp', default_options : ['warning_level=3', 'cpp_std=c++11'])
+lockless_wait_and_wake = static_library('lockless_wait_and_wake', 'source/lockless_wait_and_wake.cpp', include_directories : 'include', dependencies : dependency('threads'), override_options: ['buildtype=release'])
+lockless_wait_and_wake_dep = declare_dependency(link_with: lockless_wait_and_wake, include_directories: 'include')
+lockless_wait_and_wake_debug = static_library('lockless_wait_and_wake_debug', 'source/lockless_wait_and_wake.cpp', include_directories : 'include', dependencies : dependency('threads'), override_options: ['buildtype=debug'])
+lockless_wait_and_wake_dep = declare_dependency(link_with: lockless_wait_and_wake_debug, include_directories: 'include')
