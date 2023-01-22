@@ -30,6 +30,32 @@ void wake_all(std::atomic_uint32_t &flag, uint32_t desired){
     syscall(SYS_futex, &flag, FUTEX_WAKE_PRIVATE, UINT32_MAX, NULL, NULL, NULL);
 }
 
+#elif defined(__OpenBSD__)
+
+#include <sys/time.h>
+#include <sys/futex.h>
+
+void sleep(std::atomic_uint32_t &flag, uint32_t expected, uint32_t timeout_milliseconds=0){
+    timespec timeout;
+    timespec *timeout_p;
+    if(timeout_milliseconds){
+        timeout.tv_sec  = timeout_milliseconds / 1000;
+        timeout.tv_nsec = (timeout_milliseconds % 1000) * 1000;
+        timeout_p = &timeout;
+    } else timeout_p = NULL;
+    while(expected==flag.load()){
+        futex((volatile uint32_t*) &flag, FUTEX_WAIT, expected, timeout_p, NULL);
+    }
+}
+void wake_one(std::atomic_uint32_t &flag, uint32_t desired){
+    flag.store(desired);
+    futex((volatile uint32_t*) &flag, FUTEX_WAKE, 1, NULL, NULL);
+}
+void wake_all(std::atomic_uint32_t &flag, uint32_t desired){
+    flag.store(desired);
+    futex((volatile uint32_t*) &flag, FUTEX_WAKE, , NULL, NULL);
+}
+
 #elif defined(_WIN32)
 
 #include <Windows.h>
