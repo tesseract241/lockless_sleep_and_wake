@@ -1,6 +1,6 @@
-# lockless_wait_and_wake
+# lockless_sleep_and_wake
 ## Objective
-This library aims to provide a best-case lockless wait and wake functionality for multithreaded programs, by exploiting futexes, available in multiple common OSes.  
+This library aims to provide a best-case lockless sleep and wake functionality for multithreaded programs, by exploiting futexes, available in multiple common OSes.  
 
 
 ## Rationale  
