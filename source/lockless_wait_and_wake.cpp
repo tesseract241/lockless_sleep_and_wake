@@ -74,4 +74,6 @@ void wake_all(std::atomic_uint32_t &flag, uint32_t desired){
     WakeByAddressAll(&flag);
 }
 
+#else
+#error "lockless_wait_and_wake only supports Linux, Windows and OpenBSD. Sorry."
 #endif
