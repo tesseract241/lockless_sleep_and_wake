@@ -3,7 +3,7 @@
 #include <chrono>
 #include <random>
 #include <iostream>
-#include <lockless_wait_and_wake.hpp>
+#include <lockless_sleep_and_wake.hpp>
 
 void worker(std::atomic_uint32_t &flag){
     sleep(flag, 0);
