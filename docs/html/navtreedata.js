@@ -24,7 +24,7 @@
 */
 var NAVTREE =
 [
-  [ "lockless_wait_and_wake", "index.html", [
+  [ "lockless_sleep_and_wake", "index.html", [
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [

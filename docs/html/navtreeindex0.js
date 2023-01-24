@@ -7,10 +7,10 @@ var NAVTREEINDEX0 =
 "globals.html":[0,1,0],
 "globals_func.html":[0,1,1],
 "index.html":[],
-"lockless__wait__and__wake_8hpp.html":[0,0,0,0],
-"lockless__wait__and__wake_8hpp.html#a409dff5093542b862d1c875b58ca4b6d":[0,0,0,0,2],
-"lockless__wait__and__wake_8hpp.html#a7f2a538d84e0329d4aa2de830a325912":[0,0,0,0,1],
-"lockless__wait__and__wake_8hpp.html#abe7b8fc7a33f638d2a5966e370188633":[0,0,0,0,0],
-"lockless__wait__and__wake_8hpp_source.html":[0,0,0,0],
+"lockless__sleep__and__wake_8hpp.html":[0,0,0,0],
+"lockless__sleep__and__wake_8hpp.html#a38513baf0f2c7fd721abe278fca307e4":[0,0,0,0,1],
+"lockless__sleep__and__wake_8hpp.html#a62a2f8a011e37b8614c3fd5188551787":[0,0,0,0,2],
+"lockless__sleep__and__wake_8hpp.html#ab4c88bc58f2feae16ab96837a06e473b":[0,0,0,0,0],
+"lockless__sleep__and__wake_8hpp_source.html":[0,0,0,0],
 "pages.html":[]
 };
