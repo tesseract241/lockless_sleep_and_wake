@@ -12,7 +12,7 @@ void sleep(std::atomic_uint32_t &flag, uint32_t expected, uint32_t timeout_milli
     timespec *timeout_p;
     if(timeout_milliseconds){
         timeout.tv_sec  = timeout_milliseconds / 1000;
-        timeout.tv_nsec = (timeout_milliseconds % 1000) * 1000;
+        timeout.tv_nsec = (timeout_milliseconds % 1000) * 1000 * 1000;
         timeout_p = &timeout;
     } else timeout_p = NULL;
     while(expected==flag.load()){
@@ -38,7 +38,7 @@ void sleep(std::atomic_uint32_t &flag, uint32_t expected, uint32_t timeout_milli
     timespec *timeout_p;
     if(timeout_milliseconds){
         timeout.tv_sec  = timeout_milliseconds / 1000;
-        timeout.tv_nsec = (timeout_milliseconds % 1000) * 1000;
+        timeout.tv_nsec = (timeout_milliseconds % 1000) * 1000 * 1000;
         timeout_p = &timeout;
     } else timeout_p = NULL;
     while(expected==flag.load()){
